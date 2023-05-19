@@ -41,14 +41,17 @@
 #
 #  >>> Escriba su codigo a partir de este punto <<<
 #
-# sed 's/\([0-9]\)\//0\1\//' data.csv | sed 's/\/\([0-9]\)\//\/0\1\//' | sed 's/\/\([0-9][0-9]\);/\/20\1;/' | sed 's/;/,/g' | sed 's/,N/,\\N/g' | sed 's/,,/,\\N,/g' | sed 's/,$/,\\N/g'
+#sed 's/\([0-9]\)\//0\1\//' data.csv | sed 's/\/\([0-9]\)\//\/0\1\//' | sed 's/\/\([0-9][0-9]\);/\/20\1;/' | sed 's/;/,/g' | sed 's/,N/,\\N/g' | sed 's/,,/,\\N,/g' | sed 's/,$/,\\N/g'
 
-sed -E 's@([0-9]{2})/([0-9]{2})/([0-9]{2})@\3-\2-\1@g' "$1" |
-# Transforma los campos nulos en \N
-sed 's@;\([^;]*\);@;\N;@g' |
-sed 's@;\(\n\|$\)@;\N@g' |
-# Reemplaza los ; por ,
-sed 's@,@.@g' |
-# Usa el . para indicar decimales
-sed 's/,/./g'
-data.csv > output.csv
+# sed -E 's@([0-9]{2})/([0-9]{2})/([0-9]{2})@\3-\2-\1@g' "$1" |
+# # Transforma los campos nulos en \N
+# sed 's@;\([^;]*\);@;\N;@g' |
+# sed 's@;\(\n\|$\)@;\N@g' |
+# # Reemplaza los ; por ,
+# sed 's@,@.@g' |
+# # Usa el . para indicar decimales
+# 's/,/./g' data.csv > output.csv
+
+sed 's@([0-9]{2})/([0-9]{2})/([0-9]{2})@\3-\2-\1@g; s@;\([^;]*\);@;\N;@g; s@;\(\n\|$\)@;\N@g; s@,@.@g; s/,/./g' data.csv > output.csv
+
+#sed 's/\([0-9][0-9]\)\/\([0-9][0-9]\)\/\([0-9][0-9]\)/20\3-\2-\1/g; s/;;/;\N;/g; s/;n/;\\N/g; s/;N/;\\N/g;  s/;/,/g; s/,/./4; s/\([0-9]\)\/\([0-9]\)\/\([0-9][0-9][0-9][0-9]\)/\3-0\2-0\1/g; s/,$/,\\N/g; s/[a-z]/\U&/g;' data.csv > output.csv
