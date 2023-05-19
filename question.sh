@@ -51,3 +51,4 @@ sed 's@;\(\n\|$\)@;\N@g' |
 sed 's@,@.@g' |
 # Usa el . para indicar decimales
 sed 's/,/./g'
+data.csv > output.csv
